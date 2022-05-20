@@ -19,14 +19,17 @@ import requests as req
 from bs4 import BeautifulSoup as BS
 import random
 
-api_id = "" # api id
-api_hash = "" # api hash
+api_id = 18812221
+api_hash = "4b3a8a5527fe075019839f457f2c6dbc"
 
-app = Client("my_account")
+app = Client("my_account", api_id=api_id, api_hash=api_hash)
 
 
 @app.on_message(filters.command("hack", prefixes="/") & filters.me)  # command
 async def hack(_, msg):
+    non = "░"
+    load = [non, non, non, non, non, non, non, non, non, non]
+    loadnum = 0
     slt = msg.text.split("/hack ")[1]
 
     slt = slt.split(" ")[0]
@@ -34,17 +37,31 @@ async def hack(_, msg):
 
     for i in range(0, 100):
         try:
-            await msg.edit(f"Взлом объекта '{name}' в процессе... {i}%")
+
+            if loadnum < 10:
+                load[loadnum] = "█"
+                loadnum += 1
+            else:
+                loadnum = 0
+
+            await msg.edit(f"Взлом объекта '{name}' в процессе... {i}%\n[{''.join(load)}]")
+            if loadnum < 10:
+                load[loadnum - 1] = non
+            else:
+                load[9] = non
             sleep(float(slt))
 
         except:
             sleep(0.1)
 
-    await msg.edit(f"Взлом объекта '{name}' в процессе... 100% \nОбъект '{name}' взломан!")
+    await msg.edit(f"Взлом объекта '{name}' в процессе... 100%\n [██████████] \nОбъект '{name}' взломан!")
 
 
 @app.on_message(filters.command("nohack", prefixes="/") & filters.me)  # command
 async def nohack(_, msg):
+    non = "░"
+    load = [non, non, non, non, non, non, non, non, non, non]
+    loadnum = 0
     slt = msg.text.split("/nohack ")[1]
 
     slt = slt.split(" ")[0]
@@ -52,13 +69,24 @@ async def nohack(_, msg):
 
     for i in range(0, 100):
         try:
-            await msg.edit(f"Взлом объекта '{name}' в процессе... {i}%")
+
+            if loadnum < 10:
+                load[loadnum] = "█"
+                loadnum += 1
+            else:
+                loadnum = 0
+
+            await msg.edit(f"Взлом объекта '{name}' в процессе... {i}%\n[{''.join(load)}]")
+            if loadnum < 10:
+                load[loadnum - 1] = non
+            else:
+                load[9] = non
             sleep(float(slt))
 
         except:
             sleep(0.1)
 
-    await msg.edit(f"Взлом объекта '{name}' в процессе... 100% \nОбъект '{name}' не был взломан!")
+    await msg.edit(f"Взлом объекта '{name}' в процессе... 100%\n [██████████] \nОбъект '{name}' не был взломан!")
 
 
 @app.on_message(filters.command("inp", prefixes="/") & filters.me)  # command
@@ -147,8 +175,8 @@ async def reverse(_, msg):
 
     for i in range(0, int(slt)):
         await msg.reply(text)
-        
-        
+
+
 @app.on_message(filters.command('info', prefixes="/") & filters.me)  # command
 async def info(_, msg):
     await msg.edit("""Вот что я могу:
