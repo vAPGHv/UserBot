@@ -18,11 +18,28 @@ from time import sleep
 import requests as req
 from bs4 import BeautifulSoup as BS
 import random
+import pyttsx3
 
 api_id = 
 api_hash = ""
 
 app = Client("my_account", api_id=api_id, api_hash=api_hash)
+
+
+@app.on_message(filters.command("say", prefixes="/") & filters.me)  # command
+async def say(_, msg):
+    slt = msg.text.split("/say ")[1]
+
+    engine = pyttsx3.init()
+    engine.save_to_file(slt, "say.mp3")
+    engine.runAndWait()
+
+    x = 1
+
+    if x == 1:
+        await msg.reply_audio("say.mp3")
+
+    await msg.delete()
 
 
 @app.on_message(filters.command("hack", prefixes="/") & filters.me)  # command
@@ -176,6 +193,8 @@ async def reverse(_, msg):
     for i in range(0, int(slt)):
         await msg.reply(text)
 
+    await msg.delete()
+
 
 @app.on_message(filters.command('info', prefixes="/") & filters.me)  # command
 async def info(_, msg):
@@ -187,8 +206,10 @@ async def info(_, msg):
     /img отправка изображений по запросу
     /dimg отправка изображений по запросу с удалением сообщения
     /spam 5 спам
+    /say текст воспроизводит звук текста
     
     Made by: @vapgsv
+    Version: 1.2
     """)
 
 
