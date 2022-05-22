@@ -1,0 +1,4 @@
+aiohttp
+Pyrogram
+beautifulsoup4
+requests
