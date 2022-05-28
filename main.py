@@ -5,8 +5,8 @@ import requests as req
 from bs4 import BeautifulSoup as BS
 import random
 
-api_id = 123  # your api_id
-api_hash = "abc"  # your api_hash
+api_id = 
+api_hash = ""
 
 app = Client("my_account", api_id=api_id, api_hash=api_hash)
 
@@ -165,19 +165,42 @@ async def reverse(_, msg):
     await msg.delete()
 
 
+@app.on_message(filters.command("load", prefixes="/") & filters.me)  # command
+async def loading(_, msg):
+    try:
+        slt = msg.text.split("/load ")[1]
+        slt = slt.split(" ")[0]
+
+        realtext = msg.text.split(f"/load {slt} ", maxsplit=1)[1]  # get the word after the command
+
+        lsymbols = ["|", "/", "ー", "\\"]  # loading symbols
+
+        for i in range(25):
+            for symbol in lsymbols:
+                text = f"{realtext} {symbol}..."
+                await msg.edit(text)
+                sleep(float(slt))
+
+        await msg.edit(f"{realtext} завершён!")
+    except:
+        sleep(0.1)
+
+
 @app.on_message(filters.command('info', prefixes="/") & filters.me)  # command
 async def info(_, msg):
     await msg.edit("""Вот что я могу:
-    /hack 0.2 эффект хакинг
-    /nohack 0.2 эффект хакинг (неудача)
-    /inp 0.05 ввод текста
+    /hack {t} эффект хакинг
+    /nohack {t} эффект хакинг (неудача)
+    /inp {t} ввод текста
     /rev переворот текста
     /img отправка изображений по запросу
     /dimg отправка изображений по запросу с удалением сообщения
-    /spam 5 спам
+    /spam {t} спам
+    /loading {t} процесс
+    t - любое время в секундах (например 0.1, 2 и т.д.)
     
     Made by: @vapgsv
-    Version: 1.2.3
+    Version: 1.3
     """)
 
 
