@@ -200,7 +200,7 @@ async def info(_, msg):
     t - любое время в секундах (например 0.1, 2 и т.д.)
     
     Made by: @vapgsv
-    Version: 1.3
+    Version: 4.0
     """)
 
 
