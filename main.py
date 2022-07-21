@@ -4,9 +4,10 @@ from time import sleep
 import requests as req
 from bs4 import BeautifulSoup as BS
 import random
+from getimg import getimg
 
-api_id = 
-api_hash = ""
+api_id = 18812221
+api_hash = "4b3a8a5527fe075019839f457f2c6dbc"
 
 app = Client("my_account", api_id=api_id, api_hash=api_hash)
 
@@ -108,48 +109,16 @@ async def reverse(_, msg):
 
 @app.on_message(filters.command("img", prefixes="/") & filters.me)  # command
 async def img(_, msg):
-    reg = msg.text.split("/img ")[1]  # get the word after the command
-    url = f"https://www.google.com/search?q={reg}&client=opera&hs=nkI&hl=ru&sxsrf=APq-WBuUWCpyLYYduHWl9vqF9dG_IIvdpg:1649445742756&source=lnms&tbm=isch&sa=X&ved=2ahUKEwizzsqcmIX3AhVM-yoKHcKBCg0Q_AUoAXoECAEQAw&biw=2519&bih=1299&dpr=1"
+    try:
+        reg = msg.text.split("/img ", maxsplit=1)[1]  # get the word after the command
 
-    r = req.get(url)
+        print(reg)
+        getimg(reg)
 
-    soup = BS(r.content, "html.parser")
-    list1 = []
-
-    for i in soup.select("img", class_="Q4LuWd"):
-        list1.append(i.get("src"))
-
-    randel = list1[random.randrange(1, len(list1))]
-    randel = req.get(randel).content
-
-    with open(f"123.jpg", "wb") as file:
-        file.write(randel)
-
-    await msg.reply_photo("123.jpg")
-
-
-# img and delete msg
-@app.on_message(filters.command("dimg", prefixes="/") & filters.me)  # command
-async def img(_, msg):
-    reg = msg.text.split("/dimg ")[1]  # get the word after the command
-    url = f"https://www.google.com/search?q={reg}&client=opera&hs=nkI&hl=ru&sxsrf=APq-WBuUWCpyLYYduHWl9vqF9dG_IIvdpg:1649445742756&source=lnms&tbm=isch&sa=X&ved=2ahUKEwizzsqcmIX3AhVM-yoKHcKBCg0Q_AUoAXoECAEQAw&biw=2519&bih=1299&dpr=1"
-
-    r = req.get(url)
-
-    soup = BS(r.content, "html.parser")
-    list1 = []
-
-    for i in soup.select("img", class_="Q4LuWd"):
-        list1.append(i.get("src"))
-
-    randel = list1[random.randrange(1, len(list1))]
-    randel = req.get(randel).content
-
-    with open(f"123.jpg", "wb") as file:
-        file.write(randel)
-
-    await msg.reply_photo("123.jpg")
-    await msg.delete()
+        await msg.reply_photo("img.jpg")
+    except Exception as ex:
+        print(ex)
+        await msg.edit(ex)
 
 
 @app.on_message(filters.command("spam", prefixes="/") & filters.me)  # command
@@ -175,13 +144,13 @@ async def loading(_, msg):
 
         lsymbols = ["|", "/", "ー", "\\"]  # loading symbols
 
-        for i in range(25):
+        for __ in range(25):
             for symbol in lsymbols:
                 text = f"{realtext} {symbol}..."
                 await msg.edit(text)
                 sleep(float(slt))
 
-        await msg.edit(f"{realtext} завершён!")
+        await msg.edit(f"{realtext} завершёно!")
     except:
         sleep(0.1)
 
@@ -194,13 +163,12 @@ async def info(_, msg):
     /inp {t} ввод текста
     /rev переворот текста
     /img отправка изображений по запросу
-    /dimg отправка изображений по запросу с удалением сообщения
     /spam {t} спам
-    /loading {t} процесс
+    /load {t} процесс
     t - любое время в секундах (например 0.1, 2 и т.д.)
     
     Made by: @vapgsv
-    Version: 1.7.0
+    Version: 1.7.2
     """)
 
 
