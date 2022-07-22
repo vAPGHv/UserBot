@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup as BS
 import random
 from getimg import getimg
 
-api_id = 18812221
-api_hash = "4b3a8a5527fe075019839f457f2c6dbc"
+api_id = 
+api_hash = ""
 
 app = Client("my_account", api_id=api_id, api_hash=api_hash)
 
