@@ -15,12 +15,11 @@ app = Client("my_account", api_id=api_id, api_hash=api_hash)
 @app.on_message(filters.command("hack", prefixes="/") & filters.me)  # command
 async def hack(_, msg):
     non = "░"
-    load = [non, non, non, non, non, non, non, non, non, non]
+    load = [non] * 10
     loadnum = 0
-    slt = msg.text.split("/hack ")[1]
+    text = msg.text.split("/hack ")[1]
 
-    slt = slt.split(" ")[0]
-    name = msg.text.split(f"/hack {slt} ", maxsplit=1)[1]  # get the word after the command
+    time, name = text.split(" ")  # get the time and word after the command
 
     for i in range(0, 100):
         try:
@@ -31,28 +30,27 @@ async def hack(_, msg):
             else:
                 loadnum = 0
 
-            await msg.edit(f"Взлом объекта '{name}' в процессе... {i}%\n[{''.join(load)}]")
+            await msg.edit(f"Взлом объекта {name} в процессе... {i}%\n[{''.join(load)}]")
             if loadnum < 10:
                 load[loadnum - 1] = non
             else:
                 load[9] = non
-            sleep(float(slt))
+            sleep(float(time))
 
         except:
             sleep(0.1)
 
-    await msg.edit(f"Взлом объекта '{name}' в процессе... 100%\n [██████████] \nОбъект '{name}' взломан!")
+    await msg.edit(f"Взлом объекта '{name}' в процессе... 100%\n [██████████] \nОбъект {name} был взломан!")
 
 
 @app.on_message(filters.command("nohack", prefixes="/") & filters.me)  # command
 async def nohack(_, msg):
     non = "░"
-    load = [non, non, non, non, non, non, non, non, non, non]
+    load = [non] * 10
     loadnum = 0
-    slt = msg.text.split("/nohack ")[1]
+    text = msg.text.split("/nohack ")[1]
 
-    slt = slt.split(" ")[0]
-    name = msg.text.split(f"/nohack {slt} ", maxsplit=1)[1]  # get the word after the command
+    time, name = text.split(" ")  # get the time and word after the command
 
     for i in range(0, 100):
         try:
@@ -63,27 +61,27 @@ async def nohack(_, msg):
             else:
                 loadnum = 0
 
-            await msg.edit(f"Взлом объекта '{name}' в процессе... {i}%\n[{''.join(load)}]")
+            await msg.edit(f"Взлом объекта {name} в процессе... {i}%\n[{''.join(load)}]")
             if loadnum < 10:
                 load[loadnum - 1] = non
             else:
                 load[9] = non
-            sleep(float(slt))
+            sleep(float(time))
 
         except:
             sleep(0.1)
 
-    await msg.edit(f"Взлом объекта '{name}' в процессе... 100%\n [██████████] \nОбъект '{name}' не был взломан!")
+    await msg.edit(f"Взлом объекта '{name}' в процессе... 100%\n [██████████] \nОбъект {name} не был взломан!")
 
 
 @app.on_message(filters.command("inp", prefixes="/") & filters.me)  # command
 async def redact(_, msg):
-    slt = msg.text.split("/inp ")[1]
+    text = msg.text.split("/inp ", maxsplit=1)[1]
 
-    slt = slt.split(" ")[0]
-    realtext = msg.text.split(f"/inp {slt} ", maxsplit=1)[1]  # get the word after the command
+    time, realtext = text.split(" ", maxsplit=1)  # get the time and word after the command
 
     text = list(realtext)
+    time = float(time) / 2
 
     num = 0
 
@@ -94,7 +92,9 @@ async def redact(_, msg):
             text2 = text2 + text[num]
             await msg.edit(f"{text2}_")
             num += 1
-            sleep(float(slt))
+            sleep(time)
+            await msg.edit(f"{text2}")
+            sleep(time)
         except:
             sleep(0.1)
 
@@ -111,7 +111,10 @@ async def reverse(_, msg):
 async def img(_, msg):
     try:
         reg = msg.text.split("/img ", maxsplit=1)[1]  # get the word after the command
+        time, reg = reg.split(" ", maxsplit=1)  # get the time and request
 
+        print(time)
+        sleep(float(time))
         print(reg)
         getimg(reg)
 
@@ -123,12 +126,11 @@ async def img(_, msg):
 
 @app.on_message(filters.command("spam", prefixes="/") & filters.me)  # command
 async def reverse(_, msg):
-    slt = msg.text.split("/spam ")[1]
+    text = msg.text.split("/spam ", maxsplit=1)[1]
 
-    slt = slt.split(" ")[0]
-    text = msg.text.split(f"/spam {slt} ", maxsplit=1)[1]  # get the word after the command
+    amount, text = text.split(" ", maxsplit=1)  # get the time and word after the command
 
-    for i in range(0, int(slt)):
+    for i in range(0, int(amount)):
         await msg.reply(text)
 
     await msg.delete()
@@ -137,10 +139,8 @@ async def reverse(_, msg):
 @app.on_message(filters.command("load", prefixes="/") & filters.me)  # command
 async def loading(_, msg):
     try:
-        slt = msg.text.split("/load ")[1]
-        slt = slt.split(" ")[0]
-
-        realtext = msg.text.split(f"/load {slt} ", maxsplit=1)[1]  # get the word after the command
+        text = msg.text.split("/load ", maxsplit=1)[1]
+        time, realtext = text.split(" ", maxsplit=1)  # get the time and word after the command
 
         lsymbols = ["|", "/", "ー", "\\"]  # loading symbols
 
@@ -148,7 +148,7 @@ async def loading(_, msg):
             for symbol in lsymbols:
                 text = f"{realtext} {symbol}..."
                 await msg.edit(text)
-                sleep(float(slt))
+                sleep(float(time))
 
         await msg.edit(f"{realtext} завершёно!")
     except:
@@ -162,13 +162,13 @@ async def info(_, msg):
     /nohack {t} эффект хакинг (неудача)
     /inp {t} ввод текста
     /rev переворот текста
-    /img отправка изображений по запросу
+    /img {t} отправка изображений по запросу
     /spam {t} спам
     /load {t} процесс
-    t - любое время в секундах (например 0.1, 2 и т.д.)
+    {t} - любое время в секундах (например 0.1 {одна десятая секунды}, 2 {2 секунды} и т.д.)
     
     Made by: @vapgsv
-    Version: 1.7.2
+    Version: 1.8
     """)
 
 
