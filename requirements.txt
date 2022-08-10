@@ -1,4 +1,5 @@
 aiohttp
+tgcrypto
 Pyrogram
 beautifulsoup4
 requests
